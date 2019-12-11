@@ -20,7 +20,7 @@ int main (int argc, char *argv[])
 
     while (to_quit == false)                /* run until someone indicates to quit... */
     {
-        clntSock = AcceptTCPConnection (servSock);
+        clntSock = AcceptTCPConnection(servSock);
 
         // TODO: create&start the thread myThread() te creeeren
         pthread_t thread;       
@@ -49,7 +49,12 @@ myThread (void * threadArgs)
     //  
     // Hint: use the info(), info_d(), info_s() operations to trace what happens
     //
+    //clntSock = AcceptTCPConnection (servSock);
+    //HandleTCPClient (clntSock);
     // Note: a call of pthread_detach() is obligatory
-
+    if (pthread_detach (pthread_self ()) != 0)
+    {
+        perror ("pthread_detach(b)");
+    }
     return (NULL);
 }
