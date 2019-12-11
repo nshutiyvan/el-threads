@@ -20,7 +20,7 @@ int main (int argc, char *argv[])
     int         i;                      /* counter for data-arguments */
     parse_args (argc, argv);
 
-    sock = CreateTCPClientSocket (argv_ip, argv_port);
+    sock = CreateTCPClientSocket(argv_ip, argv_port);
         
     for (i = 0; i < argv_nrofdata; i++)
     {
@@ -30,7 +30,7 @@ int main (int argc, char *argv[])
         delaying();
         
         // TODO: add code to send this string to the server; use send()
-        send (sock,echoString,echoStringLen+1, 0);
+        send(sock,echoString,echoStringLen+1, 0);
         // TODO: add code to display the transmitted string in verbose mode; use info_s()
         info_s("\nSending:",echoString);
         // TODO: add code to receive & display the converted string from the server

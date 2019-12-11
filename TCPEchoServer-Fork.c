@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     int     clntSock;                  /* Socket descriptor for client */
     pid_t   processID;                 /* Process ID from fork() */
     bool    to_quit = false;
+    int t;
 
     parse_args (argc, argv);
 
@@ -39,7 +40,24 @@ int main(int argc, char *argv[])
         // (in particular: at those places where you don't need them any more)
 		//
 		// Hint: use the info(), info_d(), info_s() operations to trace what happens
+        t = fork();
+        if(t < 0){
+            perror("Failed forking");
+            return -1;
+        }
+        if(t > 0){
+             clntSock = AcceptTCPConnection (servSock);
+             HandleTCPClient (clntSock);   
+        }
+        else if(t == 0){
+            while(1){
+               clntSock = AcceptTCPConnection (servSock);
+               HandleTCPClient (clntSock); 
+            }
+        }
+        close(clntSock);
     }
+    close(servSock);
     
     // server stops...
 	return (0);
