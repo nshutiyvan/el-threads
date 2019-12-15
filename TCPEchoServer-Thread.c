@@ -32,12 +32,12 @@ int main (int argc, char *argv[])
         //
         // make sure that clntSock and servSock are closed at the correct locations 
         // (in particular: at those places where you don't need them any more)
-        if (pthread_create (&thread, NULL,myThread, (void *) 300000) != 0)
+        if (pthread_create (&thread, NULL,myThread, (void *)clntSock) != 0)
         {
         perror ("pthread_create(a)");
         }
-        pthread_join(thread,(void*)300000);
-        to_quit = true;
+        //pthread_join(thread,(void*)clntSock);
+        //to_quit = true;
 
     }
     close (servSock);
@@ -57,6 +57,9 @@ myThread (void * threadArgs)
     //clntSock = AcceptTCPConnection (servSock);
     //HandleTCPClient (clntSock);
     // Note: a call of pthread_detach() is obligatory
+    int clntSock;
+    clntSock= (int)threadArgs;
+    HandleTCPClient (clntSock);
     if (pthread_detach (pthread_self ()) != 0)
     {
         perror ("pthread_detach(b)");
