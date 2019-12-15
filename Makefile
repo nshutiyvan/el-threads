@@ -5,13 +5,18 @@ FLAGS="-Wall"
 
 OBJS= TCPEchoClient.o TCPEchoServer.o Auxiliary.o AcceptTCPConnection.o\
 	CreateTCPServerSocket.o	CreateTCPClientSocket.o	HandleTCPClient.o\
-	TCPEchoServer-Thread.o
+	TCPEchoServer-Thread.o TCPEchoServer-Fork.o
 
 .PHONY:clean all
 all: $(OBJS)
 	 $(CC) $(FLAGS) -o TCPEchoServer-Thread Auxiliary.o AcceptTCPConnection.o CreateTCPServerSocket.o HandleTCPClient.o TCPEchoServer-Thread.o -lrt -pthread
 	 $(CC) $(FLAGS) -o TCPEchoServer Auxiliary.o AcceptTCPConnection.o CreateTCPServerSocket.o HandleTCPClient.o TCPEchoServer.o -lrt 
 	 $(CC) $(FLAGS) -o TCPEchoClient Auxiliary.o CreateTCPClientSocket.o TCPEchoClient.o -lrt
+	 $(CC) $(FLAGS) -o TCPEchoServer-Fork Auxiliary.o AcceptTCPConnection.o CreateTCPServerSocket.o HandleTCPClient.o TCPEchoServer-Fork.o -lrt 
+
+
+TCPEchoServer-Fork.o:TCPEchoServer-Fork.c Auxiliary.h AcceptTCPConnection.h CreateTCPServerSocket.h HandleTCPClient.h
+					 $(CC) $(FLAGS) -c -o TCPEchoServer-Fork.o  TCPEchoServer-Fork.c
 
 TCPEchoServer-Thread.o:TCPEchoServer-Thread.c Auxiliary.h AcceptTCPConnection.h CreateTCPServerSocket.h HandleTCPClient.h
 						$(CC) $(FLAGS) -c -o TCPEchoServer-Thread.o  TCPEchoServer-Thread.c
@@ -42,4 +47,5 @@ clean:
 	 HandleTCPClient.o TCPEchoClient.o TCPEchoServer-Fork.o \
 	 TCPEchoServer.o TCPEchoServer-Thread.o TCPEchoClient \
 	  TCPEchoServer-Fork TCPEchoServer TCPEchoServer-Thread\
-	  TCPEchoServer-Thread.o TCPEchoServer-Thread
+	  TCPEchoServer-Thread.o TCPEchoServer-Thread\
+	  TCPEchoServer-Fork.o TCPEchoServer-Fork\

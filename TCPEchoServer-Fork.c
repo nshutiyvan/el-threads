@@ -46,11 +46,11 @@ int main(int argc, char *argv[])
             return -1;
         }
         if(t > 0){
-             clntSock = AcceptTCPConnection (servSock);
-             HandleTCPClient (clntSock);   
+             info_d("Thread id",t);
+             HandleTCPClient (clntSock);              
         }
         else if(t == 0){
-            while(1){
+            while(!to_quit){
                clntSock = AcceptTCPConnection (servSock);
                HandleTCPClient (clntSock); 
             }
