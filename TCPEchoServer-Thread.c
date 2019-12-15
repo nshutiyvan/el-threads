@@ -1,6 +1,10 @@
 #include <pthread.h>
-
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <errno.h>
 #include "Auxiliary.h"
+
 #include "AcceptTCPConnection.h"
 #include "CreateTCPServerSocket.h"
 #include "HandleTCPClient.h"
@@ -28,8 +32,9 @@ int main (int argc, char *argv[])
         //
         // make sure that clntSock and servSock are closed at the correct locations 
         // (in particular: at those places where you don't need them any more)
-        if(pthread_create(&thread,NULL,myThread,(void*)300000!=0)){
-           perror("Failed creating thread"); 
+        if (pthread_create (&thread, NULL,myThread, (void *) 300000) != 0)
+        {
+        perror ("pthread_create(a)");
         }
         pthread_join(thread,(void*)300000);
         to_quit = true;

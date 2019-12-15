@@ -4,12 +4,17 @@ CC="gcc"
 FLAGS="-Wall"
 
 OBJS= TCPEchoClient.o TCPEchoServer.o Auxiliary.o AcceptTCPConnection.o\
-	CreateTCPServerSocket.o	CreateTCPClientSocket.o	HandleTCPClient.o
+	CreateTCPServerSocket.o	CreateTCPClientSocket.o	HandleTCPClient.o\
+	TCPEchoServer-Thread.o
 
 .PHONY:clean all
 all: $(OBJS)
+	 $(CC) $(FLAGS) -o TCPEchoServer-Thread Auxiliary.o AcceptTCPConnection.o CreateTCPServerSocket.o HandleTCPClient.o TCPEchoServer-Thread.o -lrt -pthread
 	 $(CC) $(FLAGS) -o TCPEchoServer Auxiliary.o AcceptTCPConnection.o CreateTCPServerSocket.o HandleTCPClient.o TCPEchoServer.o -lrt 
 	 $(CC) $(FLAGS) -o TCPEchoClient Auxiliary.o CreateTCPClientSocket.o TCPEchoClient.o -lrt
+
+TCPEchoServer-Thread.o:TCPEchoServer-Thread.c Auxiliary.h AcceptTCPConnection.h CreateTCPServerSocket.h HandleTCPClient.h
+						$(CC) $(FLAGS) -c -o TCPEchoServer-Thread.o  TCPEchoServer-Thread.c
 
 TCPEchoServer.o:TCPEchoServer.c Auxiliary.h AcceptTCPConnection.h CreateTCPServerSocket.h HandleTCPClient.h
 				$(CC) $(FLAGS) -c -o TCPEchoServer.o  TCPEchoServer.c
